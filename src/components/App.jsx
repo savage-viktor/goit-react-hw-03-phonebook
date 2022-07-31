@@ -17,6 +17,18 @@ export class App extends Component {
     filter: '',
   };
 
+  componentDidUpdate(_, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('phonebook-state', JSON.stringify(this.state));
+    }
+  }
+
+  componentDidMount() {
+    if (localStorage.getItem('phonebook-state')) {
+      this.setState(JSON.parse(localStorage.getItem('phonebook-state')));
+    }
+  }
+
   addContactHandler = event => {
     event.preventDefault();
     const name = event.currentTarget.name.value;
